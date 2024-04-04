@@ -3,11 +3,14 @@ package com.devsuperior.dscommerce.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tb_user")
 public class User {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,6 +20,9 @@ public class User {
     private LocalDate birthDate;
     private String password;
     // roles: String[] 
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
+    
     
     public User() {
     }
@@ -76,6 +82,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 
     @Override
