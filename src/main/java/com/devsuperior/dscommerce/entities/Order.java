@@ -18,15 +18,20 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
+    
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL) 
+    // operações em cascata, oque faz em uma entidade se reflete na outra
+    private Payment payment;
 
     public Order() {
     }
 
-    public Order(Long id, Instant moment, OrderStatus status, User client) {
+    public Order(Long id, Instant moment, OrderStatus status, User client, Payment payment) {
         this.id = id;
         this.moment = moment;
         this.status = status;
         this.client = client;
+        this.payment = payment;
     }
 
     public Long getId() {
@@ -61,6 +66,14 @@ public class Order {
         this.client = client;
     }
 
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,4 +85,5 @@ public class Order {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+    
 }
