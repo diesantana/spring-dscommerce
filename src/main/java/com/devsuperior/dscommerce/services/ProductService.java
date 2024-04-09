@@ -10,9 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class ProductService {
     
@@ -34,11 +31,22 @@ public class ProductService {
     @Transactional
     public ProductDTO insert(ProductDTO productDTO) {
         Product entity = new Product();
+        convertDtoToEntity(productDTO, entity);
+        return new ProductDTO(repository.save(entity));
+    }
+
+    @Transactional
+    public ProductDTO update(Long id, ProductDTO productDTO) {
+        Product entity = repository.getReferenceById(id);
+        convertDtoToEntity(productDTO, entity);
+        return new ProductDTO(repository.save(entity));
+    }
+
+    // Copia os dados de um DTO para uma entidade
+    private void convertDtoToEntity(ProductDTO productDTO, Product entity) {
         entity.setName(productDTO.getName());
         entity.setDescription(productDTO.getDescription());
         entity.setPrice(productDTO.getPrice());
         entity.setImgUrl(productDTO.getImgUrl());
-        
-        return new ProductDTO(repository.save(entity));
     }
 }
