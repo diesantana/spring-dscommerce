@@ -30,4 +30,15 @@ public class ProductService {
         Page<Product> result = repository.findAll(pageable);
         return result.map(x -> new ProductDTO(x));
     }
+    
+    @Transactional
+    public ProductDTO insert(ProductDTO productDTO) {
+        Product entity = new Product();
+        entity.setName(productDTO.getName());
+        entity.setDescription(productDTO.getDescription());
+        entity.setPrice(productDTO.getPrice());
+        entity.setImgUrl(productDTO.getImgUrl());
+        
+        return new ProductDTO(repository.save(entity));
+    }
 }
