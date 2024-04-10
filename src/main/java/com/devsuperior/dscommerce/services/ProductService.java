@@ -41,6 +41,11 @@ public class ProductService {
         convertDtoToEntity(productDTO, entity);
         return new ProductDTO(repository.save(entity));
     }
+    
+    @Transactional
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
 
     // Copia os dados de um DTO para uma entidade
     private void convertDtoToEntity(ProductDTO productDTO, Product entity) {
