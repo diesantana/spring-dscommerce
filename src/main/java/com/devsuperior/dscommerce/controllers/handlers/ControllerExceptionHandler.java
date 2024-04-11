@@ -1,6 +1,7 @@
 package com.devsuperior.dscommerce.controllers.handlers;
 
 import com.devsuperior.dscommerce.dto.CustomErrorDTO;
+import com.devsuperior.dscommerce.services.exceptions.DatabaseException;
 import com.devsuperior.dscommerce.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,17 @@ public class ControllerExceptionHandler {
     
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<CustomErrorDTO> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
-//        HttpStatus status = HttpStatus.NOT_FOUND;
-        Integer status = HttpStatus.NOT_FOUND.value();
-        CustomErrorDTO errorDTO = new CustomErrorDTO(Instant.now(), status, e.getMessage(),request.getRequestURI());
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        CustomErrorDTO errorDTO = new CustomErrorDTO(
+                Instant.now(), status.value(), e.getMessage(),request.getRequestURI());
+        return ResponseEntity.status(status).body(errorDTO);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<CustomErrorDTO> database(DatabaseException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomErrorDTO errorDTO = new CustomErrorDTO(
+                Instant.now(), status.value(), e.getMessage(),request.getRequestURI());
         return ResponseEntity.status(status).body(errorDTO);
     }
     
