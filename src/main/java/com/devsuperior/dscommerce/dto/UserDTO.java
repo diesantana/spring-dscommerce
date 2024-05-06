@@ -2,6 +2,8 @@ package com.devsuperior.dscommerce.dto;
 
 import com.devsuperior.dscommerce.entities.Role;
 import com.devsuperior.dscommerce.entities.User;
+import com.fasterxml.jackson.databind.util.BeanUtil;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,11 +18,8 @@ public class UserDTO {
     private List<String> roles = new ArrayList<>();
 
     public UserDTO(User entity) {
-        id = entity.getId();
-        name = entity.getName();
-        email = entity.getEmail();
-        phone = entity.getPhone();
-        birthDate = entity.getBirthDate();
+        BeanUtils.copyProperties(entity, this);
+        
         for (Role role : entity.getRoles()) {
             roles.add(role.getAuthority());
         }
@@ -48,5 +47,25 @@ public class UserDTO {
 
     public List<String> getRoles() {
         return roles;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 }
