@@ -4,10 +4,9 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
+// representar a chave primária composta, da entidade OrderItem
 @Embeddable
 public class OrderItemPK {
     

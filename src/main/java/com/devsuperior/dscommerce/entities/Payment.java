@@ -16,7 +16,10 @@ public class Payment {
     private Instant moment;
     
     @OneToOne
-    @MapsId // Define que o id de Payment vai ser o mesmo que o de Order, sendo a PK e FK 
+    @MapsId
+    // peculiaridade da JPA é o uso da annotation @MapsId, no lugar do mappedBy. 
+    // Isso é para que seja criado no banco relacional a correspondência de ids entre as duas tabelas
+    // para o pedido 1, o id do pagamento dele também será 1, para o pedido 2, o id do pagamento dele também será 2
     private Order order;    
 
     public Payment() {

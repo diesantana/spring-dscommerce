@@ -25,7 +25,9 @@ public class Order {
     private User client;
     
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL) 
-    // operações em cascata, oque faz em uma entidade se reflete na outra
+    // operações em cascata, o que eu fizer na entity Order vai se refletir na entity Payment
+    // Por exemplo se você excluir um Order ele automaticamente irá propagar a exclusão do Payment.
+    // nesse caso específico do mapeamento 1-1, isso é uma peculiaridade da JPA, que exige que seja definida dessa forma
     private Payment payment;
 
     @OneToMany(mappedBy = "id.order")
