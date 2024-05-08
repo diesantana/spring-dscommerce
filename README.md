@@ -16,6 +16,7 @@ A aplicação utiliza Spring JPA e o banco de dados H2 para testes, com o objeti
 - Java
 - Spring Boot
 - Spring Data JPA
+- Spring Secutiry e OAuth2 com JWT
 - Banco de Dados H2 (em memória)
 
 
