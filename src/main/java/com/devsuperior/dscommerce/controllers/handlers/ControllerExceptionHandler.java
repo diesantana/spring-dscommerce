@@ -20,7 +20,7 @@ public class ControllerExceptionHandler {
     
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<CustomErrorDTO> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
+        HttpStatus status = HttpStatus.NOT_FOUND; 
         CustomErrorDTO errorDTO = new CustomErrorDTO(
                 Instant.now(), status.value(), e.getMessage(),request.getRequestURI());
         return ResponseEntity.status(status).body(errorDTO);
@@ -34,11 +34,16 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(errorDTO);
     }
 
+    // validação com o Bean Validation 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomErrorDTO> MethodArgumentNotValid(MethodArgumentNotValidException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; // especifica o cód de erro que vai ser gerado
+        
+        // Instancia o ValidationError, passando uma lista de erros com o campo e a msg de erro
+        // ValidationError é um DTO para customizar validações do bean validation
         ValidationError errorDTO = new ValidationError(
                 Instant.now(), status.value(), "Dados inválidos",request.getRequestURI());
+        // percorre a lista de erros do Bean Validation e adiciona a nossa lista de error
         for (FieldError f : e.getBindingResult().getFieldErrors()) {
             errorDTO.addFieldMessage(f.getField(), f.getDefaultMessage());
         }
