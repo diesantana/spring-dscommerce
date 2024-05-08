@@ -15,7 +15,10 @@ public class ValidationError extends CustomErrorDTO{
         return fieldMessageList;
     }
     
+    // adiciona novos erros a nossa lista de erros
     public void addFieldMessage(String fieldName, String message) {
+        // remove os erros com o mesmo nome, evita duplicidade de erros. 
+        fieldMessageList.removeIf(x -> x.getFieldName().equals(fieldName));
         fieldMessageList.add(new FieldMessage(fieldName, message));
     }
 }
